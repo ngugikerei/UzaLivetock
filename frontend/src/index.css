@@ -11,3 +11,27 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+main {
+  margin: 1rem;
+}
+
+.animals {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.animal {
+  border: 1px #404040 solid;
+  margin: 1rem;
+}
+
+.animal img {
+  width: 100%;
+  max-width: 400px;
+}
+
+.animal-info {
+  padding: 1rem;
+}
