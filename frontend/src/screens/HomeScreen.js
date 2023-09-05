@@ -1,14 +1,41 @@
 import { Link } from 'react-router-dom';
-//import data from '../data';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useReducer } from 'react';
 import axios from 'axios';
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'FETCH_REQUEST':
+      return { ...state, loading: true };
+
+    case 'FETCH_SUCCESS':
+      return { ...state, animals: action.payload, loading: false };
+
+    case 'FETCH_FAIL':
+      return { ...state, loading: false, error: action.payload };
+
+    default:
+      return state;
+  }
+};
 
 function HomeScreen() {
-  const [animals, setAnimals] = useState([]);
+  const [{ loading, error, animals }, dispatch] = useReducer(reducer, {
+    animals: [],
+    loading: true,
+    error: '',
+  });
+
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get('/api/animals');
-      setAnimals(result.data);
+      dispatch({ type: 'FETCH_REQUEST' });
+
+      try {
+        const result = await axios.get('/api/animals');
+        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+      } catch (error) {
+        dispatch({ type: 'FETCH_FAIL', payload: error.message });
+      }
+
+      //setAnimals(result.data);
     };
     fetchData();
   }, []);
