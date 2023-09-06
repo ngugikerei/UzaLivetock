@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState, useReducer } from 'react';
 import axios from 'axios';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Animal from '../components/Animal';
+
 const reducer = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':
@@ -44,28 +48,13 @@ function HomeScreen() {
       {' '}
       <h1> Newly Added</h1>
       <div className="animals">
-        {animals.map((animal) => (
-          <div className="animal" key={animal.slug}>
-            <Link to={`/animal/${animal.slug}`}>
-              <img src={animal.image} alt={animal.name} />
-            </Link>
-
-            <div className="animal-info">
-              <Link to={`/animal/${animal.slug}`}>
-                <p>{animal.name}</p>
-              </Link>
-
-              <p>{animal.breed}</p>
-
-              <p>{animal.County}</p>
-
-              <p>
-                <strong>Ksh {animal.ListPrice}</strong>
-              </p>
-              <button>Know More</button>
-            </div>
-          </div>
-        ))}
+        <Row>
+          {animals.map((animal) => (
+            <Col key={animal.slug} sm={6} md={3} lg={4} className="mb-3">
+              <Animal animal={animal}></Animal>
+            </Col>
+          ))}
+        </Row>
       </div>
     </div>
   );
